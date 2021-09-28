@@ -3,7 +3,7 @@
 </h1> 
 
 
-### Requisitos mínimos
+### Requisitos Alura
 
 O projeto deve ser uma API Rest utilizando o Spring Boot, criada pelo site Spring Initializr.
 O projeto deve utilizar também as bibliotecas Lombok, ModelMapper e Bean Validation.
