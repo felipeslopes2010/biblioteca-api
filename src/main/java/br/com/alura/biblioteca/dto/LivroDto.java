@@ -4,7 +4,6 @@ import java.time.LocalDate;
 
 import com.fasterxml.jackson.annotation.JsonGetter;
 
-import br.com.alura.biblioteca.modelo.Autor;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,13 +11,16 @@ import lombok.Setter;
 @Setter
 public class LivroDto {
 
-	String titulo;
-	LocalDate dataLancamento;
-	Integer numeroPaginas;
-	Autor autor;
-	
+	private Long id;
+	private String titulo;
+	private LocalDate dataLancamento;
+	private Integer numeroPaginas;
+	private AutorDto autor;
+
 	@JsonGetter("autor")
-	public String getNomeAutor() {
+	private String getNomeAutor() {
+		
 		return autor.getNome();
+		
 	}
 }

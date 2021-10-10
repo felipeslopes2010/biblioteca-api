@@ -15,11 +15,15 @@ public class AutorFormDto {
 
 	@NotBlank
 	private String nome;
+	
 	@NotBlank
 	private String email;
+	
 	@NotNull
 	@PastOrPresent
 	private LocalDate dataNascimento;
+	
 	@NotBlank
 	private String curriculo;
+	
 }
