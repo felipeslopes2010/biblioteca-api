@@ -15,8 +15,8 @@
 - Adicionado a API as funcionalidades para Cadastro, Listagem de autores, Atualização dos autores e Remoção dos autores. Consumindo e devolvendo as informações no formato JSON.
 - Adicionado o módulo do Spring Data JPA no projeto, e o MySQL.
 - Utilizar também o Flyway como ferramenta de migration, para o controle da evolução do schema do banco de dados da API.
-- Criar uma classe com métodos para tratamento dos erros 400, 404 e 500 que ocorrerem na API.
--Criado os testes automatizados das classes controller, repository e service da API, utilizando para isso as bibliotecas JUnit, AssertJ e Mockito, bem como os recursos de testes do Spring Boot.
+- Criado uma classe com métodos para tratamento dos erros 400, 404 e 500 que ocorrerem na API.
+- Criado os testes automatizados das classes controller, repository e service da API, utilizando para isso as bibliotecas JUnit, AssertJ e Mockito, bem como os recursos de testes do Spring Boot.
 -Utilização do Swagger como ferramenta para geração automatizada da documentação da API.
 
 
