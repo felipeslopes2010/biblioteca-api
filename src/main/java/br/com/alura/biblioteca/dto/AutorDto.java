@@ -13,5 +13,6 @@ public class AutorDto {
 	private String nome;
 	private String email;
 	private LocalDate dataNascimento;
+	private String curriculo;
 	
 }
