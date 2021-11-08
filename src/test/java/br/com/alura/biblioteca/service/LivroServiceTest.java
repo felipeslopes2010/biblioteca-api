@@ -23,13 +23,13 @@ import br.com.alura.biblioteca.repository.LivroRepository;
 class LivroServiceTest {
 
 	@Mock
-	private LivroRepository repository;
+	private LivroRepository livroRepository;
 	
 	@Mock
 	private AutorRepository autorRepository;
 	
 	@InjectMocks
-	private LivroService service;
+	private LivroService livroService;
 	
 	private LivroFormDto criarLivroFormDto() {
 		LivroFormDto formDto = new LivroFormDto(
@@ -43,9 +43,9 @@ class LivroServiceTest {
 	void deveriaCadastrarUmLivro() {
 		LivroFormDto formDto = criarLivroFormDto();
 		
-		LivroDto dto = service.cadastrar(formDto);
+		LivroDto dto = livroService.cadastrar(formDto);
 		
-		Mockito.verify(repository).save(Mockito.any());
+		Mockito.verify(livroRepository).save(Mockito.any());
 		
 		assertEquals(formDto.getTitulo(), dto.getTitulo());
 		assertEquals(formDto.getDataLancamento(), dto.getDataLancamento());
@@ -62,7 +62,7 @@ class LivroServiceTest {
 		.thenThrow(EntityNotFoundException.class);
 	
 		
-		assertThrows(IllegalArgumentException.class, () -> service.cadastrar(formDto));
+		assertThrows(IllegalArgumentException.class, () -> livroService.cadastrar(formDto));
 		
 	}
 }

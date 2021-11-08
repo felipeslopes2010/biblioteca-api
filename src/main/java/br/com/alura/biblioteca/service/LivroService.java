@@ -23,7 +23,7 @@ import br.com.alura.biblioteca.repository.LivroRepository;
 public class LivroService {
 
 	@Autowired
-	LivroRepository repository;
+	LivroRepository livroRepository;
 
 	@Autowired
 	AutorRepository autorRepository;
@@ -32,8 +32,9 @@ public class LivroService {
 
 	public Page<LivroDto> listar(Pageable paginacao) {
 
-		return repository
-				.findAll(paginacao)
+		Page<Livro> livros = livroRepository.findAll(paginacao);
+		
+		return livros
 				.map(l -> modelMapper.map(l, LivroDto.class));
 
 	}
@@ -48,7 +49,7 @@ public class LivroService {
 			livro.setId(null);
 			livro.setAutor(autor);
 
-			repository.save(livro);
+			livroRepository.save(livro);
 
 			return modelMapper.map(livro, LivroDto.class);
 
@@ -60,7 +61,7 @@ public class LivroService {
 	@Transactional
 	public LivroDto atualizar(AtualizacaoLivroFormDto dto) {
 		
-		Livro livro = repository.getById(dto.getId());
+		Livro livro = livroRepository.getById(dto.getId());
 		
 		livro.atualizarInformacoes(dto.getTitulo(), dto.getDataLancamento(), dto.getNumeroPaginas());
 		
@@ -68,15 +69,15 @@ public class LivroService {
 	}
 	
 	@Transactional
-	public void remover(Long id) {
+	public void remover(@NotNull Long id) {
 		
-		repository.deleteById(id);
+		livroRepository.deleteById(id);
 
 	}
 	
 	public LivroDetalhadoDto detalhar(@NotNull Long id) {
 		
-		Livro livro = repository
+		Livro livro = livroRepository
 				.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException());
 		

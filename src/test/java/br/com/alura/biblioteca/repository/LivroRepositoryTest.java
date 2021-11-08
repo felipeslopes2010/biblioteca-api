@@ -26,7 +26,7 @@ import br.com.alura.biblioteca.modelo.Livro;
 class LivroRepositoryTest {
 
 	@Autowired
-	private LivroRepository repository;
+	private LivroRepository livroRepository;
 	
 	@Autowired
 	private TestEntityManager em;
@@ -87,7 +87,7 @@ class LivroRepositoryTest {
 				a1);
 		em.persist(l7);
 		
-		List<ItemLivrariaDto> relatorio = repository.relatorioBiblioteca();
+		List<ItemLivrariaDto> relatorio = livroRepository.relatorioBiblioteca();
 		
 		Assertions
 		.assertThat(relatorio)

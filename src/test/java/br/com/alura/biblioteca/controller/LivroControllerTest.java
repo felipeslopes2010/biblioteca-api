@@ -5,6 +5,10 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.header;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
+import java.time.LocalDate;
+
+import javax.transaction.Transactional;
+
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -17,11 +21,12 @@ import org.springframework.security.core.Authentication;
 import org.springframework.test.context.ActiveProfiles;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.transaction.annotation.Transactional;
 
 import br.com.alura.biblioteca.infra.security.TokenService;
+import br.com.alura.biblioteca.modelo.Autor;
 import br.com.alura.biblioteca.modelo.Perfil;
 import br.com.alura.biblioteca.modelo.Usuario;
+import br.com.alura.biblioteca.repository.AutorRepository;
 import br.com.alura.biblioteca.repository.PerfilRepository;
 import br.com.alura.biblioteca.repository.UsuarioRepository;
 
@@ -30,10 +35,13 @@ import br.com.alura.biblioteca.repository.UsuarioRepository;
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @Transactional
-class AutorControllerTest {
-
+class LivroControllerTest {
+	
 	@Autowired
-	private MockMvc mvc;
+	private MockMvc mvc;	
+	
+	@Autowired
+	private AutorRepository repository;
 	
 	@Autowired
 	private TokenService tokenService;
@@ -55,33 +63,48 @@ class AutorControllerTest {
 		Authentication authentication = new UsernamePasswordAuthenticationToken(logado , logado.getLogin());
 		this.token = tokenService.gerarToken(authentication);
 	}
-	
+
 	@Test
-	void naoDeveriaCadastrarAutorComDadosIncompletos() throws Exception {
+	void naoDeveriaCadastrarLivroComDadosIncompletos() throws Exception {
 		String json = "{}";
 		
-		mvc
-		.perform(post("/autores")
-		.contentType(MediaType.APPLICATION_JSON)
-		.content(json)
-		.header("Authorization","Bearer " + token))
-		.andExpect(status().isBadRequest());
-	}
-	
-	@Test
-	void deveriaCadastrarAutorComDadosCompletos() throws Exception {
-		String json = "{\"nome\":\"fulano\",\"email\":\"fulano@email.com\",\"dataNascimento\":\"1995-12-12\",\"curriculo\":\"Java Avancado\"}";
-		
-		mvc
-		.perform(
-				post("/autores")
+		mvc.perform(
+				 post("/livros") 
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json)
 				.header("Authorization","Bearer " + token))
-				.andExpect(status().isCreated())
-				.andExpect(header().exists("Location"))
-				.andExpect(content().json(json));
+				.andExpect(status().isBadRequest());
+	}	
+	
+	
+	@Test
+	void deveriaCadastarLivroComDadosCompletos() throws Exception {
+		Autor autor = new Autor();
+			autor.setNome("J. R. R. Tolkien");
+			autor.setDataNascimento(LocalDate.of(1892,01,03));
+			autor.setEmail("tolkien@email.com");
+			autor.setCurriculo("Autor do livro Senhor dos Aneis");
+			autor.setId(null);
+			repository.save(autor);			
+				
+			
+		String json = "{\"titulo\":\"O senhor dos aneis\","
+				+ "\"dataLancamento\":\"1954-07-29\","
+				+ "\"numeroPaginas\":600,\"autorId\":"+ autor.getId()+ "}";
 		
-	}
+		String jsonEsperado = "{\"titulo\":\"O senhor dos aneis\","
+				+ "\"dataLancamento\":\"1954-07-29\","
+				+ "\"numeroPaginas\":600}";
+
+		
+		mvc.perform(
+				 post("/livros")
+				 	.contentType(MediaType.APPLICATION_JSON)
+					.content(json)
+					.header("Authorization","Bearer " + token))
+					.andExpect(status().isCreated())
+					.andExpect(header().exists("Location"))
+					.andExpect(content().json(jsonEsperado));
+		}
 
 }

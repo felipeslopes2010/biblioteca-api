@@ -1,6 +1,6 @@
 package br.com.alura.biblioteca.dto;
 
-import java.time.LocalDate;
+import javax.validation.constraints.NotNull;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,11 +11,8 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class LivroDto {
-
+public class AtualizacaoUsuarioFormDto extends UsuarioFormDto {
+	@NotNull
 	private Long id;
-	private String titulo;
-	private LocalDate dataLancamento;
-	private Integer numeroPaginas;
-	
+
 }

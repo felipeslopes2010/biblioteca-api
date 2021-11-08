@@ -21,14 +21,15 @@ import br.com.alura.biblioteca.repository.AutorRepository;
 public class AutorService {
 
 	@Autowired
-	AutorRepository repository;
+	private AutorRepository autorRepository;
 
 	private ModelMapper modelMapper = new ModelMapper();
 
 	public Page<AutorDto> listar(Pageable paginacao) {
 		
-		return repository
-				.findAll(paginacao)
+		Page<Autor> autores = autorRepository.findAll(paginacao);
+		
+		return autores
 				.map(a -> modelMapper.map(a, AutorDto.class));
 		
 	}
@@ -37,14 +38,14 @@ public class AutorService {
 	public AutorDto cadastrar(AutorFormDto dto) {
 		
 		Autor autor = modelMapper.map(dto, Autor.class);
-		repository.save(autor);
+		autorRepository.save(autor);
 		return modelMapper.map(autor, AutorDto.class);
 		
 	}
 	
 	@Transactional
 	public AutorDto atualizar(AtualizacaoAutorFormDto dto) {
-		Autor autor = repository.getById(dto.getId());
+		Autor autor = autorRepository.getById(dto.getId());
 		
 		autor.atualizarInformacoes(dto.getNome(), dto.getEmail(), dto.getDataNascimento(), dto.getCurriculo());
 		
@@ -52,15 +53,15 @@ public class AutorService {
 	}
 
 	@Transactional
-	public void remover(Long id) {
+	public void remover(@NotNull Long id) {
 		
-		repository.deleteById(id);
+		autorRepository.deleteById(id);
 		
 	}
 
 	public AutorDetalhadoDto detalhar(@NotNull Long id) {
 
-		Autor autor = repository
+		Autor autor = autorRepository
 				.findById(id)
 				.orElseThrow(() -> new EntityNotFoundException());
 		

@@ -34,7 +34,7 @@ import io.swagger.annotations.ApiOperation;
 public class AutorController {
 
 	@Autowired
-	AutorService service;
+	private AutorService service;
 	
 	@GetMapping
 	@ApiOperation("Lista Autores")

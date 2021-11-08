@@ -30,7 +30,7 @@ import br.com.alura.biblioteca.repository.UsuarioRepository;
 @AutoConfigureMockMvc
 @ActiveProfiles("test")
 @Transactional
-class AutorControllerTest {
+class UsuarioControllerTest {
 
 	@Autowired
 	private MockMvc mvc;
@@ -47,41 +47,44 @@ class AutorControllerTest {
 	private String token;
 	
 	@BeforeEach
-	private void gerarToken() {
-		Usuario logado = new Usuario("felipe", "felipe@email.com", "123456");
-		Perfil admin = perfilRepository.findById(1l).get(); 
+	public void gerarToken() {
+		
+		Usuario logado = new Usuario("Rodrigo", "rodrigo", "123456");
+		Perfil admin = perfilRepository.findById(1l).get();
 		logado.adicionarPerfil(admin);
-		usuarioRepository.save(logado);		
-		Authentication authentication = new UsernamePasswordAuthenticationToken(logado , logado.getLogin());
+		usuarioRepository.save(logado);
+		
+		Authentication authentication = new UsernamePasswordAuthenticationToken(logado, logado.getLogin());
 		this.token = tokenService.gerarToken(authentication);
 	}
 	
 	@Test
-	void naoDeveriaCadastrarAutorComDadosIncompletos() throws Exception {
+	void naoDeveriaCadastrarUsuarioComDadosIncompletos() throws Exception {
 		String json = "{}";
 		
 		mvc
-		.perform(post("/autores")
+		.perform(post("/usuarios")
 		.contentType(MediaType.APPLICATION_JSON)
 		.content(json)
-		.header("Authorization","Bearer " + token))
+		.header("Authorization", "Bearer " +token))
 		.andExpect(status().isBadRequest());
+		
 	}
 	
 	@Test
-	void deveriaCadastrarAutorComDadosCompletos() throws Exception {
-		String json = "{\"nome\":\"fulano\",\"email\":\"fulano@email.com\",\"dataNascimento\":\"1995-12-12\",\"curriculo\":\"Java Avancado\"}";
+	void deveriaCadastrarUsuarioComDadosCompletos() throws Exception {
+		String json = "{\"nome\":\"fulano\",\"login\":\"fulano@email.com\",\"perfilId\":1}";
+		String jsonEsperado = "{\"nome\":\"fulano\",\"login\":\"fulano@email.com\"}";
 		
 		mvc
 		.perform(
-				post("/autores")
+				post("/usuarios")
 				.contentType(MediaType.APPLICATION_JSON)
 				.content(json)
-				.header("Authorization","Bearer " + token))
+				.header("Authorization", "Bearer " +token))
 				.andExpect(status().isCreated())
 				.andExpect(header().exists("Location"))
-				.andExpect(content().json(json));
+				.andExpect(content().json(jsonEsperado));
 		
 	}
-
 }

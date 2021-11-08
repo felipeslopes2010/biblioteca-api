@@ -9,13 +9,16 @@ import javax.servlet.http.HttpServletRequest;
 
 import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.http.HttpStatus;
+import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import br.com.alura.biblioteca.dto.Erro400Dto;
 import br.com.alura.biblioteca.dto.Erro500Dto;
 
+@RestControllerAdvice
 public class TratamentoDeErros {
 
 	@ExceptionHandler(MethodArgumentNotValidException.class)
@@ -46,6 +49,12 @@ public class TratamentoDeErros {
 	@ResponseStatus(code = HttpStatus.NOT_FOUND)
 	public void tratarErro404() {
 		
+	}
+	
+	@ExceptionHandler(AccessDeniedException.class)
+	@ResponseStatus(code = HttpStatus.FORBIDDEN)
+	public String tratarErro403(AccessDeniedException e) {
+		return e.getMessage();
 	}
 	
 }

@@ -12,11 +12,11 @@ import br.com.alura.biblioteca.repository.LivroRepository;
 public class RelatorioService {
 
 	@Autowired
-	LivroRepository repository;
+	LivroRepository livroRepository;
 	
 	public List<ItemLivrariaDto> relatorioBiblioteca(){
 		
-		return repository.relatorioBiblioteca();
+		return livroRepository.relatorioBiblioteca();
 		
 	}
 }

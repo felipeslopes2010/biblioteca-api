@@ -49,5 +49,12 @@ public class Autor {
 		this.curriculo = curriculo;
 		
 	}
-
+	
+	public void AutorLivro(Long id, String nome, String email, LocalDate dataNascimento, String curriculo) {
+		this.id = id;
+		this.nome = nome;
+		this.email = email;
+		this.dataNascimento = dataNascimento;
+		this.curriculo = curriculo;
+	}
 }
