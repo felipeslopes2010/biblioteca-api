@@ -1,0 +1,20 @@
+version: '3'
+
+services:
+  biblioteca_database:
+    image: mysql:8.0
+    restart: always
+    expose:
+      - 3306
+    env_file:
+      - biblioteca_database.env
+
+  biblioteca_app:
+    image: alura/biblioteca-api
+    restart: always
+    ports:
+      - 8080:8080
+    depends_on:
+      - biblioteca_database
+    env_file:
+      - biblioteca_app.env
