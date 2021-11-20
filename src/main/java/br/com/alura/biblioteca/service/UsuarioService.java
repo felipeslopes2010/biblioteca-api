@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import br.com.alura.biblioteca.dto.AtualizacaoUsuarioFormDto;
 import br.com.alura.biblioteca.dto.UsuarioDto;
 import br.com.alura.biblioteca.dto.UsuarioFormDto;
+import br.com.alura.biblioteca.infra.EnviadorDeEmail;
 import br.com.alura.biblioteca.modelo.Perfil;
 import br.com.alura.biblioteca.modelo.Usuario;
 import br.com.alura.biblioteca.repository.PerfilRepository;
@@ -35,6 +36,9 @@ public class UsuarioService {
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 
+	@Autowired
+	private EnviadorDeEmail enviadorDeEmail;
+	
 	public Page<UsuarioDto> listar(Pageable paginacao) {
 		
 		Page<Usuario> usuarios = usuarioRepository.findAll(paginacao);
@@ -56,6 +60,14 @@ public class UsuarioService {
 
 		usuarioRepository.save(usuario);
 		
+		String destinatario = usuario.getEmail();
+		String assunto = "Carteira - Bem vindo(a)";
+		String mensagem = String.format("Olá %s!\n\n"
+				+ "Segue seus dados de acesso ao sistema Carteira:"
+				+ "\nLogin: %s"
+				+ "\nSenha: %s", usuario.getNome(), usuario.getLogin(), senha);
+		
+		enviadorDeEmail.enviarEmail(destinatario, assunto, mensagem);
 		return modelMapper.map(usuario, UsuarioDto.class);
 		
 	}
