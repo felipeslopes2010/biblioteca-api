@@ -21,7 +21,7 @@
 - Segurança da API com base em perfis no JWT.
 - Deploy da API do projeto Biblioteca no Heroku utilizando Docker.
 - CI/CD utilizando GitHub Actions para integração e entrega contínua.
-- Implementação de funcionalidade para envio de email via Gmail, de maneira assíncrona, ao cadastrar um novo usuário na API.
+- Implementação de funcionalidade para envio de e-mail via Gmail, de maneira assíncrona, ao cadastrar um novo usuário na API.
 
 ### Tecnologias Utilizadas
 
