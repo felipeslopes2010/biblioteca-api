@@ -19,7 +19,9 @@
 - Criado os testes automatizados das classes controller, repository e service da API, utilizando para isso as bibliotecas JUnit, AssertJ e Mockito, bem como os recursos de testes do Spring Boot.
 - Utilização do Swagger como ferramenta para geração automatizada da documentação da API.
 - Segurança da API com base em perfis no JWT.
-
+- Deploy da API do projeto Biblioteca no Heroku utilizando Docker.
+- CI/CD utilizando GitHub Actions para integração e entrega contínua.
+- Implementação de funcionalidade para envio de email via Gmail, de maneira assíncrona, ao cadastrar um novo usuário na API.
 
 ### Tecnologias Utilizadas
 
@@ -37,3 +39,7 @@
 - Junit
 - Swagger
 - JWT 
+- Maven
+- Docker
+- Deploy via Heroku/JawsDB
+- CI/CD Github Actions
