@@ -6,4 +6,4 @@ COPY target/*.jar /app/biblioteca-api.jar
 
 EXPOSE 8080
 
-CMD java -XX:+UseContainerSupport -jar biblioteca-api.jar
+CMD java -XX:+UseContainerSupport -Xmx512m -Dserver.port=${PORT} -jar biblioteca-api.jar
